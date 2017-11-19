@@ -4,7 +4,7 @@ import './Business.css';
 
 
 //displays business via business object
-export class Business extends React.Component{
+class Business extends React.Component{
   render(){
     return (
       <div className="Business">
@@ -28,3 +28,5 @@ export class Business extends React.Component{
     );
   }
 };
+
+export default Business;
