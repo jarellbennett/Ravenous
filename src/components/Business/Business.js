@@ -13,8 +13,8 @@ const business = {
  rating: 4.5,
  reviewCount: 90
 };
-
-class Business extends React.Component{
+//displays business via business object 
+export class Business extends React.Component{
   render(){
     return (
       <div className="Business">
@@ -29,7 +29,7 @@ class Business extends React.Component{
            <p>{business.state,business.zipCode}</p>
          </div>
          <div className="Business-reviews">
-           <h3>{business.category}/h3>
+           <h3>{business.category}</h3>
            <h3 className="rating">{business.rating} stars</h3>
            <p>{business.reviewCount} reviews</p>
          </div>
@@ -38,5 +38,3 @@ class Business extends React.Component{
     );
   }
 };
-
-export default Business;
