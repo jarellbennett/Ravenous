@@ -1,7 +1,7 @@
 const clientId= 'UJuwIwtCIhPTM__e41sMkg';
 const secret =
  'nGN1wXmtVGKHw1sUs2jRq5bzMOhn6GpPaJnxwsuyX1cIkbB1irAQ5KhxZRa9UJI4';
-const accessToken;
+let accessToken;
 
 const yelp = {
   getAccessToken(){
@@ -23,7 +23,7 @@ const yelp = {
   },
 
   search(term,location,sortBy){
-    return Yelp.getAccessToken().then(()=>{
+    return yelp.getAccessToken().then(()=>{
       return fetch(
         `https://cors-anywhere.herokuapp.com/api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=${sortBy}`
       ,{
@@ -34,9 +34,25 @@ const yelp = {
         }
       }).then(jsonResponse => {
         if(jsonResponse.businesses){
-          jsonResponse.businesses.map();
+          jsonResponse.businesses.map(business=>{
+            return {
+              id: business.id,
+              imageSrc: business.imageSrc,
+              name: business.name,
+              address: business.address,
+              city: business.city,
+              state: business.state,
+              zipCode: business.zipCode,
+              category: business.category,
+              rating: business.rating,
+              reviewCount: business.reviewCount
+
+            };
+          });
         }
-      })
-    })
+      });
+    });
   }
 }
+
+export default yelp;
