@@ -9,7 +9,7 @@ const yelp = {
       return new Promise(resolve=> resolve(accessToken));
     }
     return fetch(
-      `https://cors-anywhere.herokuapp.com/api.yelp.com/oauth2/token?grant_type=client_credentials&client_id=${clientId}&client_secret=${secret}`
+      `https://cors-anywhere.herokuapp.com/https://api.yelp.com/oauth2/token?grant_type=client_credentials&client_id=${clientId}&client_secret=${secret}`
     , {
       method: 'POST',
       body: JSON.stringify({id:'200'})
@@ -25,7 +25,7 @@ const yelp = {
   search(term,location,sortBy){
     return yelp.getAccessToken().then(()=>{
       return fetch(
-        `https://cors-anywhere.herokuapp.com/api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=${sortBy}`
+        `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=${sortBy}`
       ,{
         headers: ({Authorization: `Bearer ${accessToken}`})
       }).then(response=> {
@@ -34,21 +34,21 @@ const yelp = {
         }
       }).then(jsonResponse => {
         if(jsonResponse.businesses){
-          jsonResponse.businesses.map(business=>{
-            return {
-              id: business.id,
-              imageSrc: business.imageSrc,
-              name: business.name,
-              address: business.address,
-              city: business.city,
-              state: business.state,
-              zipCode: business.zipCode,
-              category: business.category,
-              rating: business.rating,
-              reviewCount: business.reviewCount
+          return jsonResponse.businesses.map(business=>({
 
-            };
-          });
+              id: business.id,
+              imageSrc: business.image_url,
+              name: business.name,
+              address: business.location.address,
+              city: business.location.city,
+              state: business.location.state,
+              zipCode: business.location.zip_code,
+              category: business.categories[0].title,
+              rating: business.rating,
+              reviewCount: business.review_count
+
+
+          }));
         }
       });
     });
